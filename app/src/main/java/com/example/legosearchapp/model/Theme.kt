@@ -1,4 +1,7 @@
 package com.example.legosearchapp.model
 
-class Theme {
-}
+data class Theme(
+    var id: Int,
+    var name: String,
+    var parentId: Int,
+)
