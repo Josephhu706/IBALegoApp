@@ -10,12 +10,18 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.legosearchapp.ui.AppViewModelProvider
+import com.example.legosearchapp.ui.screens.LegoAppViewModel
 import com.example.legosearchapp.ui.theme.LegoSearchAppTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+            val viewModel: LegoAppViewModel = viewModel(
+                factory = AppViewModelProvider.Factory
+            )
             LegoSearchAppTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
