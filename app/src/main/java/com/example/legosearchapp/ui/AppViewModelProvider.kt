@@ -11,6 +11,7 @@ object AppViewModelProvider {
     val Factory = viewModelFactory {
         initializer{
             LegoAppViewModel(
+                legoSearchApplication().dataStoreRepository
             )
         }
     }
