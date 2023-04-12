@@ -16,10 +16,12 @@ fun <T : Any> readCSV(
     val bufferReader = BufferedReader(appContext.assets.open(fileName).reader())
     val csvParser = CSVParser.parse(
         bufferReader, CSVFormat.DEFAULT
+            .withSkipHeaderRecord()
             .withDelimiter(',')
             .withQuote('"')
             .withRecordSeparator("\r\n")
-    )
+    ).drop(1)
+
     if (csvType == Set::class) {
         val sets = mutableListOf<Set>()
         for (csvRecord in csvParser) {
@@ -37,11 +39,13 @@ fun <T : Any> readCSV(
     } else {
         val themes = mutableListOf<Theme>()
         for (csvRecord in csvParser) {
+            var parentId = csvRecord.get(2)
             themes.add(
                 Theme(
                     id = csvRecord.get(0).toInt(),
                     name = csvRecord.get(1),
-                    parentId = csvRecord.get(2).toInt()
+                    parentId = if(parentId == "") null else parentId.toInt()
+
                 )
             )
         }
