@@ -10,7 +10,7 @@ import com.example.legosearchapp.ui.screens.LegoAppViewModel
 import kotlinx.coroutines.launch
 
 @Composable
-fun FlightNavHost(
+fun LegoSearchNavHost(
     navController: NavHostController,
     modifier: Modifier = Modifier,
     viewModel: LegoAppViewModel
