@@ -7,7 +7,6 @@ import androidx.compose.ui.Modifier
 import com.example.legosearchapp.LegoSearchTopAppBar
 import com.example.legosearchapp.model.Set
 import com.example.legosearchapp.ui.navigation.NavigationDestination
-import com.example.legosearchapp.ui.screens.LegoAppViewModel
 import com.example.legosearchapp.ui.screens.LegoSearchAppUiState
 import com.example.legosearchapp.utils.LegoSearchContentType
 
@@ -27,7 +26,7 @@ fun LegoSearchScreen(
                 canNavigateBack = false,
                 contentType = LegoSearchContentType.ListOnly,
                 onToggleDarkTheme = onToggleDarkTheme,
-                darkModeState = uiState.isDarkTheme
+                darkModeState = uiState.isDarkTheme,
             )
         }
     ){

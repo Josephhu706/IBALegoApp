@@ -75,14 +75,15 @@ fun LegoSearchTopAppBar(
                 onDarkModeToggle = onToggleDarkTheme,
             )
         },
-        modifier = modifier
+        modifier = modifier.testTag(stringResource(id = R.string.topBar))
     )
 }
 
 @Composable
 fun darkModeToggle(
     darkModeState: Boolean,
-    onDarkModeToggle: (Boolean) -> Unit
+    onDarkModeToggle: (Boolean) -> Unit,
+    modifier: Modifier = Modifier
 ){
     if(darkModeState){
         Text(text = stringResource(
@@ -103,6 +104,7 @@ fun darkModeToggle(
         checked = darkModeState,
         onCheckedChange = {
             onDarkModeToggle(!darkModeState)
-        }
+        },
+        modifier = modifier.testTag(stringResource(id = R.string.darkModeToggle))
     )
 }

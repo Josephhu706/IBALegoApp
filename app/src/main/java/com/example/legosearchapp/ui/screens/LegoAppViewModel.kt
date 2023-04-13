@@ -32,7 +32,7 @@ class LegoAppViewModel(
         setDarkThemeToState()
     }
 
-    private fun setDarkThemeToState() {
+    private fun setDarkThemeToState(){
         viewModelScope.launch {
             dataStoreRepository.getDarkMode().collect { isDarkTheme ->
                 _uiState.update {
