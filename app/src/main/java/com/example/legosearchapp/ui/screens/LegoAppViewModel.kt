@@ -2,14 +2,20 @@ package com.example.legosearchapp.ui.screens
 
 import android.content.Context
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.legosearchapp.LegoSearchApplication
+import com.example.legosearchapp.data.DataStoreRepository
 import com.example.legosearchapp.model.Theme
 import com.example.legosearchapp.model.Set
 import com.example.legosearchapp.utils.readCSV
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
-class LegoAppViewModel() : ViewModel(){
+class LegoAppViewModel(
+    private val dataStoreRepository: DataStoreRepository
+) : ViewModel(){
 
     var legoSearchContext: Context = LegoSearchApplication.context!!
 
@@ -21,6 +27,29 @@ class LegoAppViewModel() : ViewModel(){
     )
 
     val uiState = _uiState.asStateFlow()
+
+    init {
+        setDarkThemeToState()
+    }
+
+    private fun setDarkThemeToState(){
+        viewModelScope.launch {
+            dataStoreRepository.getDarkMode().collect { isDarkTheme ->
+                _uiState.update {
+                    it.copy(
+                        isDarkTheme = isDarkTheme
+                    )
+                }
+            }
+        }
+    }
+
+    fun saveDarkModeState(isDarkTheme: Boolean){
+        viewModelScope.launch{
+            dataStoreRepository.setIsDarkMode(isDarkTheme)
+            setDarkThemeToState()
+        }
+    }
 }
 
 data class LegoSearchAppUiState(
