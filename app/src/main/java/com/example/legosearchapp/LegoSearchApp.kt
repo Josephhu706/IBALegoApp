@@ -76,7 +76,7 @@ fun LegoSearchTopAppBar(
         actions = {
             darkModeToggle(
                 darkModeState = darkModeState,
-                onCheckedChange = onToggleDarkTheme,
+                onDarkModeToggle = onToggleDarkTheme,
             )
         },
         modifier = modifier
@@ -86,9 +86,9 @@ fun LegoSearchTopAppBar(
 @Composable
 fun darkModeToggle(
     darkModeState: Boolean,
-    onCheckedChange: (Boolean) -> Unit
+    onDarkModeToggle: (Boolean) -> Unit
 ){
-    if(isSystemInDarkTheme()){
+    if(darkModeState){
         Text(text = stringResource(
             id = R.string.toggleDarkMode,
         ),
@@ -106,7 +106,7 @@ fun darkModeToggle(
     Switch(
         checked = darkModeState,
         onCheckedChange = {
-            onCheckedChange(it)
+            onDarkModeToggle(!darkModeState)
         }
     )
 }

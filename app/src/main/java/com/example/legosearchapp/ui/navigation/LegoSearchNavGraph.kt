@@ -33,7 +33,7 @@ fun LegoSearchNavHost(
                 navigateToSetOnClick = {},
                 currentDestination = Destinations.SearchScreenDestination,
                 onToggleDarkTheme = {
-
+                    viewModel.saveDarkModeState(it)
                 },
                 uiState = uiState
             )
