@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -14,12 +15,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.legosearchapp.ui.navigation.Destinations
 import com.example.legosearchapp.ui.navigation.NavigationDestination
-import com.example.legosearchapp.ui.navigation.SetInfoDestination
 import com.example.legosearchapp.ui.screens.LegoAppViewModel
 import com.example.legosearchapp.utils.LegoSearchContentType
 
@@ -27,12 +27,21 @@ import com.example.legosearchapp.utils.LegoSearchContentType
 fun LegoSearchApp(
     navController: NavHostController = rememberNavController(),
     modifier: Modifier = Modifier,
-    viewModel: LegoAppViewModel
+    viewModel: LegoAppViewModel,
+    windowSize: WindowWidthSizeClass,
 ){
-    LegoSearchNavHost(
-        navController = navController,
-        viewModel = viewModel
-    )
+    val contentType = when (windowSize){
+        WindowWidthSizeClass.Compact -> LegoSearchContentType.ListOnly
+        WindowWidthSizeClass.Medium -> LegoSearchContentType.ListAndDetail
+        WindowWidthSizeClass.Expanded -> LegoSearchContentType.ListAndDetail
+        else -> LegoSearchContentType.ListOnly
+    }
+
+    if(contentType == LegoSearchContentType.ListOnly){
+        LegoSearchNavHost(navController = navController, viewModel = viewModel)
+    } else {
+        //list and info page for big screens
+    }
 }
 
 @Composable
@@ -52,9 +61,7 @@ fun LegoSearchTopAppBar(
             )
         },
         navigationIcon = {
-            if(canNavigateBack
-                && currentDestination == SetInfoDestination
-                && contentType == LegoSearchContentType.ListOnly){
+            if(canNavigateBack && contentType == LegoSearchContentType.ListOnly){
                 IconButton(
                     onClick = { onBackButtonClick() },
                     modifier = Modifier.testTag("backButton")
