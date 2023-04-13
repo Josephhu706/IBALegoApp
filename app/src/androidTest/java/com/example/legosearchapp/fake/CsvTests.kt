@@ -28,5 +28,4 @@ class CsvTests {
         val testThemeData = readCSV("testThemes.csv", legoSearchContext, Theme::class)
         assertEquals(expectedThemes, testThemeData)
     }
-
 }

@@ -1,7 +1,7 @@
 package com.example.legosearchapp
 
 import LegoSearchNavHost
-import androidx.compose.foundation.isSystemInDarkTheme
+
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
@@ -9,16 +9,12 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.legosearchapp.ui.navigation.Destinations
 import com.example.legosearchapp.ui.navigation.NavigationDestination
 import com.example.legosearchapp.ui.screens.LegoAppViewModel
 import com.example.legosearchapp.utils.LegoSearchContentType
