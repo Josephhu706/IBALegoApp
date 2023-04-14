@@ -29,7 +29,7 @@ class MainActivity : ComponentActivity() {
             )
             val uiState = viewModel.uiState.collectAsState().value
             LegoSearchAppTheme(
-                uiState.isDarkTheme
+                darkTheme = uiState.isDarkTheme
             ) {
                 Surface(
                     modifier = Modifier.fillMaxSize(),

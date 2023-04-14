@@ -4,7 +4,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import com.example.legosearchapp.LegoSearchTopAppBar
+import com.example.legosearchapp.R
 import com.example.legosearchapp.model.Set
 import com.example.legosearchapp.ui.navigation.NavigationDestination
 import com.example.legosearchapp.ui.screens.LegoSearchAppUiState
@@ -19,6 +22,7 @@ fun LegoSearchScreen(
     uiState: LegoSearchAppUiState
 ){
     Scaffold(
+        modifier = modifier.testTag(stringResource(id = R.string.searchScreen)),
         topBar = {
             LegoSearchTopAppBar(
                 onBackButtonClick = {},
