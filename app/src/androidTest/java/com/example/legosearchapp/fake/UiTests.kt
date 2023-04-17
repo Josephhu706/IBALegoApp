@@ -1,15 +1,10 @@
 package com.example.legosearchapp.fake
 
 import android.content.Context
-import android.content.res.Resources.Theme
 import androidx.activity.ComponentActivity
-import androidx.compose.material.LocalContentColor
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.test.*
-import androidx.compose.ui.test.junit4.ComposeContentTestRule
-import androidx.compose.ui.test.junit4.ComposeTestRule
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
@@ -20,7 +15,6 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.legosearchapp.LegoSearchApp
 import com.example.legosearchapp.LegoSearchApplication
 import com.example.legosearchapp.data.DataStoreRepository
-import com.example.legosearchapp.ui.navigation.Destinations
 import com.example.legosearchapp.ui.screens.LegoAppLoadingState
 import com.example.legosearchapp.ui.screens.LegoAppViewModel
 import com.example.legosearchapp.ui.theme.LegoSearchAppTheme

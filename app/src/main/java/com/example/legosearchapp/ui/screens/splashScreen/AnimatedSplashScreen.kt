@@ -3,7 +3,6 @@ package com.example.legosearchapp.ui.screens.splashScreen
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
@@ -16,8 +15,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.legosearchapp.R
 import com.example.legosearchapp.ui.navigation.Destinations
 import com.example.legosearchapp.ui.screens.LegoSearchAppUiState
@@ -26,7 +28,7 @@ import kotlinx.coroutines.delay
 
 @Composable
 fun AnimatedSplashScreen(
-    uiState: LegoSearchAppUiState,
+    isDarkTheme: Boolean,
     navController: NavController
 ){
     var startAnimation by remember { mutableStateOf(false) }
@@ -43,7 +45,7 @@ fun AnimatedSplashScreen(
         navController.navigate(Destinations.SearchScreenDestination.route)
     }
     Splash(
-        uiState = uiState,
+        isDarkTheme = isDarkTheme,
         alpha = alphaAnim.value
     )
 }
@@ -51,12 +53,12 @@ fun AnimatedSplashScreen(
 @Composable
 fun Splash(
     modifier: Modifier = Modifier,
-    uiState: LegoSearchAppUiState,
+    isDarkTheme: Boolean,
     alpha: Float
 ){
     Box(
         modifier = modifier
-            .background(if (uiState.isDarkTheme) Color.Black else Purple700)
+            .background(if (isDarkTheme) Color.Black else Purple700)
             .fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
@@ -75,4 +77,14 @@ fun Splash(
 fun NavController.popToRootAtMost() {
     if (previousBackStackEntry == null) return
     popBackStack()
+}
+
+@Preview
+@Composable
+fun AnimateSplashScreenPreview(){
+    val navController: NavHostController = rememberNavController()
+    AnimatedSplashScreen(
+        isDarkTheme = false,
+        navController = navController
+    )
 }

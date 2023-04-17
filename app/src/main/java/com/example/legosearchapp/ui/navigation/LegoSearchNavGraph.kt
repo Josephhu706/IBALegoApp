@@ -14,7 +14,6 @@ import com.example.legosearchapp.ui.navigation.Destinations
 import com.example.legosearchapp.ui.screens.LegoAppViewModel
 import com.example.legosearchapp.ui.screens.searchScreen.LegoSearchScreen
 import com.example.legosearchapp.ui.screens.splashScreen.AnimatedSplashScreen
-import kotlinx.coroutines.launch
 
 @Composable
 fun LegoSearchNavHost(
@@ -34,7 +33,7 @@ fun LegoSearchNavHost(
     ){
         composable(route = Destinations.SplashScreenDestination.route){
             AnimatedSplashScreen(
-                uiState = uiState,
+                isDarkTheme = uiState.isDarkTheme,
                 navController = navController
             )
         }
