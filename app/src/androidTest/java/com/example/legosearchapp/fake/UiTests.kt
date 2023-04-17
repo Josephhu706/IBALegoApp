@@ -39,7 +39,7 @@ class UiTests {
     private val testDispatcher = UnconfinedTestDispatcher()
     private val testScope = TestScope(testDispatcher + Job())
 
-    fun setupTestRepoAndViewModel(tempFolder: TemporaryFolder):LegoAppViewModel{
+    private fun setupTestRepoAndViewModel(tempFolder: TemporaryFolder):LegoAppViewModel{
         val newFile : File = tmpFolder.newFile("savedData.preferences_pb")
         val testDataStore: DataStore<Preferences> = PreferenceDataStoreFactory.create (
             scope = testScope,
@@ -122,11 +122,7 @@ class UiTests {
         composeTestRule.waitUntil(30000) {
             viewModel.uiState.value.dataStoreLoadingState == LegoAppLoadingState.Success
         }
-        composeTestRule.waitUntil(30000) {
-            composeTestRule
-                .onAllNodesWithTag("Dark Mode Toggle")
-                .fetchSemanticsNodes().size == 1
-        }
+        composeTestRule.mainClock.advanceTimeBy(5000)
         composeTestRule.onNodeWithText("Dark").assertIsDisplayed()
     }
 
