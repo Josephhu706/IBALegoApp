@@ -39,7 +39,7 @@ fun AnimatedSplashScreen(
     LaunchedEffect(key1 = true){
         startAnimation = true
         delay(4000)
-        navController.popBackStack()
+        navController.popToRootAtMost()
         navController.navigate(Destinations.SearchScreenDestination.route)
     }
     Splash(
@@ -70,4 +70,9 @@ fun Splash(
             tint = Color.White
         )
     }
+}
+
+fun NavController.popToRootAtMost() {
+    if (previousBackStackEntry == null) return
+    popBackStack()
 }

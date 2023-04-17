@@ -31,6 +31,7 @@ fun LegoSearchScreen(
                 contentType = LegoSearchContentType.ListOnly,
                 onToggleDarkTheme = onToggleDarkTheme,
                 darkModeState = uiState.isDarkTheme,
+                loadingState = uiState.dataStoreLoadingState
             )
         }
     ){

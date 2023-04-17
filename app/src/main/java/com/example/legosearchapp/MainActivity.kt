@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.legosearchapp.ui.AppViewModelProvider
+import com.example.legosearchapp.ui.screens.LegoAppLoadingState
 import com.example.legosearchapp.ui.screens.LegoAppViewModel
 import com.example.legosearchapp.ui.theme.LegoSearchAppTheme
 
@@ -29,7 +30,7 @@ class MainActivity : ComponentActivity() {
             )
             val uiState = viewModel.uiState.collectAsState().value
             LegoSearchAppTheme(
-                darkTheme = uiState.isDarkTheme
+                uiState.isDarkTheme
             ) {
                 Surface(
                     modifier = Modifier.fillMaxSize(),

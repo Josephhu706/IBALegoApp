@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.io.IOException
 
 class LegoAppViewModel(
     private val dataStoreRepository: DataStoreRepository
@@ -23,6 +24,7 @@ class LegoAppViewModel(
         LegoSearchAppUiState(
             setData = readCSV("sets.csv", legoSearchContext, csvType = Set::class),
             themeData = readCSV("themes.csv", legoSearchContext, csvType = Theme::class),
+            dataStoreLoadingState = LegoAppLoadingState.Loading
         )
     )
 
@@ -32,22 +34,59 @@ class LegoAppViewModel(
         setDarkThemeToState()
     }
 
+    private fun setAppStateToLoading(){
+        _uiState.update {
+            it.copy(
+                dataStoreLoadingState = LegoAppLoadingState.Loading
+            )
+        }
+    }
+
+    private fun setAppToError(){
+        _uiState.update {
+            it.copy(
+                dataStoreLoadingState = LegoAppLoadingState.Error
+            )
+        }
+    }
+
+    private fun setAppToSuccess(){
+        _uiState.update {
+            it.copy(
+                dataStoreLoadingState = LegoAppLoadingState.Success
+            )
+        }
+    }
+
     private fun setDarkThemeToState(){
         viewModelScope.launch {
-            dataStoreRepository.getDarkMode().collect { isDarkTheme ->
-                _uiState.update {
-                    it.copy(
-                        isDarkTheme = isDarkTheme
-                    )
+            setAppStateToLoading()
+            try{
+                dataStoreRepository.getDarkMode().collect { isDarkTheme ->
+                    _uiState.update {
+                        it.copy(
+                            isDarkTheme = isDarkTheme,
+                            dataStoreLoadingState = LegoAppLoadingState.Success
+                        )
+                    }
                 }
+            } catch (e: IOException){
+                setAppToError()
             }
+
         }
     }
 
     fun saveDarkModeState(isDarkTheme: Boolean){
         viewModelScope.launch{
-            dataStoreRepository.setIsDarkMode(isDarkTheme)
-            setDarkThemeToState()
+            setAppStateToLoading()
+            try {
+                dataStoreRepository.setIsDarkMode(isDarkTheme)
+                setDarkThemeToState()
+                setAppToSuccess()
+            }catch (e: IOException){
+                setAppToError()
+            }
         }
     }
 }
@@ -59,5 +98,12 @@ data class LegoSearchAppUiState(
     val filteredSets: List<Set> = emptyList(),
     val currentSet: Set? = null,
     val searchTerm: String = "",
-    val isDarkTheme: Boolean = false
+    val isDarkTheme: Boolean = false,
+    val dataStoreLoadingState: LegoAppLoadingState
 )
+
+interface LegoAppLoadingState {
+    object Success : LegoAppLoadingState
+    object Error : LegoAppLoadingState
+    object Loading : LegoAppLoadingState
+}
