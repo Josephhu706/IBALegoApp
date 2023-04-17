@@ -21,6 +21,7 @@ import com.example.legosearchapp.LegoSearchApp
 import com.example.legosearchapp.LegoSearchApplication
 import com.example.legosearchapp.data.DataStoreRepository
 import com.example.legosearchapp.ui.navigation.Destinations
+import com.example.legosearchapp.ui.screens.LegoAppLoadingState
 import com.example.legosearchapp.ui.screens.LegoAppViewModel
 import com.example.legosearchapp.ui.theme.LegoSearchAppTheme
 import junit.framework.TestCase.assertEquals
@@ -110,26 +111,23 @@ class UiTests {
         assertEquals(viewModel.uiState.value.isDarkTheme, true)
     }
 
-//    @Test
-//    fun testCorrectTextDisplayedWhenToggleDarkTheme(){
-//        val viewModel = setupTestRepoAndViewModel(tmpFolder)
-//        setupComposeTestRuleForApp(viewModel)
-//        composeTestRule.mainClock.autoAdvance = true // default
-//        composeTestRule.mainClock.advanceTimeBy(2000)
-//        composeTestRule.onNodeWithText("Light").assertIsDisplayed()
-//        composeTestRule.onNodeWithTag("Dark Mode Toggle").performClick()
-//        composeTestRule.mainClock.autoAdvance = false // default
-//        composeTestRule.waitUntil(
-//            30000
-//        ) {
-//            viewModel.uiState.value.isDarkTheme
-//        }
-//
-//        composeTestRule.onNodeWithTag("Dark Mode Toggle").assertExists()
-//        composeTestRule.mainClock.autoAdvance = true// default
-//        composeTestRule.waitForIdle()
-//        composeTestRule.mainClock.autoAdvance = false // default
-//        composeTestRule.mainClock.advanceTimeBy(2000)
-//        composeTestRule.onNodeWithText("Dark").assertIsDisplayed()
-//    }
+    @Test
+    fun testCorrectTextDisplayedWhenToggleDarkTheme(){
+        val viewModel = setupTestRepoAndViewModel(tmpFolder)
+        setupComposeTestRuleForApp(viewModel)
+        composeTestRule.mainClock.autoAdvance = true // default
+        composeTestRule.mainClock.advanceTimeBy(2000)
+        composeTestRule.onNodeWithText("Light").assertIsDisplayed()
+        composeTestRule.onNodeWithTag("Dark Mode Toggle").performClick()
+        composeTestRule.waitUntil(30000) {
+            viewModel.uiState.value.dataStoreLoadingState == LegoAppLoadingState.Success
+        }
+        composeTestRule.waitUntil(30000) {
+            composeTestRule
+                .onAllNodesWithTag("Dark Mode Toggle")
+                .fetchSemanticsNodes().size == 1
+        }
+        composeTestRule.onNodeWithText("Dark").assertIsDisplayed()
+    }
+
 }
