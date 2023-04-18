@@ -12,10 +12,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.example.legosearchapp.ui.navigation.Destinations
 import com.example.legosearchapp.ui.navigation.NavigationDestination
+import com.example.legosearchapp.ui.screens.LegoAppLoadingState
 import com.example.legosearchapp.ui.screens.LegoAppViewModel
 import com.example.legosearchapp.utils.LegoSearchContentType
 
@@ -49,6 +52,7 @@ fun LegoSearchTopAppBar(
     contentType: LegoSearchContentType,
     onToggleDarkTheme: (Boolean) -> Unit,
     darkModeState: Boolean,
+    loadingState: LegoAppLoadingState
 ){
     TopAppBar(
         title = {
@@ -73,6 +77,7 @@ fun LegoSearchTopAppBar(
             darkModeToggle(
                 darkModeState = darkModeState,
                 onDarkModeToggle = onToggleDarkTheme,
+                loadingState = loadingState
             )
         },
         modifier = modifier.testTag(stringResource(id = R.string.topBar))
@@ -83,7 +88,8 @@ fun LegoSearchTopAppBar(
 fun darkModeToggle(
     darkModeState: Boolean,
     onDarkModeToggle: (Boolean) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    loadingState: LegoAppLoadingState
 ){
     if(darkModeState){
         Text(text = stringResource(
@@ -101,10 +107,25 @@ fun darkModeToggle(
 
     Spacer(modifier = Modifier.padding(start = 4.dp))
     Switch(
+        enabled = loadingState == LegoAppLoadingState.Success,
         checked = darkModeState,
         onCheckedChange = {
             onDarkModeToggle(!darkModeState)
         },
         modifier = modifier.testTag(stringResource(id = R.string.darkModeToggle))
+    )
+}
+
+@Preview
+@Composable
+fun LegoAppTopBarPreview(){
+    LegoSearchTopAppBar(
+        onBackButtonClick = {},
+        currentDestination = Destinations.SearchScreenDestination,
+        canNavigateBack = true,
+        contentType = LegoSearchContentType.ListOnly,
+        onToggleDarkTheme = {},
+        darkModeState = false,
+        loadingState = LegoAppLoadingState.Success
     )
 }

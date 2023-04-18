@@ -2,15 +2,14 @@ package com.example.legosearchapp.fake
 
 import android.content.Context
 import androidx.test.ext.junit.runners.AndroidJUnit4
-
-import com.example.legosearchapp.model.Theme
-import com.example.legosearchapp.model.Set
-import com.example.legosearchapp.utils.readCSV
-import junit.framework.TestCase.assertEquals
-import org.junit.Test
 import com.example.legosearchapp.LegoSearchApplication
 import com.example.legosearchapp.fake.fake.expectedSets
 import com.example.legosearchapp.fake.fake.expectedThemes
+import com.example.legosearchapp.model.Set
+import com.example.legosearchapp.model.Theme
+import com.example.legosearchapp.utils.readCSV
+import junit.framework.TestCase.assertEquals
+import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)

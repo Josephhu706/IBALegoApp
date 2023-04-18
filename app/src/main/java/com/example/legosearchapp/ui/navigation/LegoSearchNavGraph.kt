@@ -3,14 +3,17 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.example.legosearchapp.R
 import com.example.legosearchapp.ui.navigation.Destinations
 import com.example.legosearchapp.ui.screens.LegoAppViewModel
 import com.example.legosearchapp.ui.screens.searchScreen.LegoSearchScreen
-import kotlinx.coroutines.launch
+import com.example.legosearchapp.ui.screens.splashScreen.AnimatedSplashScreen
 
 @Composable
 fun LegoSearchNavHost(
@@ -25,9 +28,15 @@ fun LegoSearchNavHost(
 
     NavHost(
         navController = navController,
-        startDestination = Destinations.SearchScreenDestination.route,
+        startDestination = Destinations.SplashScreenDestination.route,
         modifier = modifier
     ){
+        composable(route = Destinations.SplashScreenDestination.route){
+            AnimatedSplashScreen(
+                isDarkTheme = uiState.isDarkTheme,
+                navController = navController
+            )
+        }
         composable(route = Destinations.SearchScreenDestination.route){
             LegoSearchScreen(
                 navigateToSetOnClick = {},
@@ -35,7 +44,8 @@ fun LegoSearchNavHost(
                 onToggleDarkTheme = {
                     viewModel.saveDarkModeState(it)
                 },
-                uiState = uiState
+                uiState = uiState,
+                modifier = Modifier.testTag(stringResource(id = R.string.searchScreen))
             )
         }
         composable(route = Destinations.SetInfoDestination.route){
